@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Components.h"
 #include <string>
-
+#include <tuple>
 class EntityManager;
 
 typedef std::tuple<
@@ -48,6 +48,18 @@ public:
 	T& getComponent()
 	{
 		return std::get<T>(m_components);
+	}
+	template <typename T>
+	const T& getComponent() const
+	{
+		return std::get<T>(m_components);
+	}
+	template <typename T>
+	void removeComponent()
+	{
+		auto& component = getComponent<T>();
+		component = T();
+		component.has = false;
 	}
 };
 

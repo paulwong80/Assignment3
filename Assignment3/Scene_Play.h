@@ -4,7 +4,7 @@
 #include <memory>
 #include "EntityManager.h"
 
-class Scene_Play
+class Scene_Play:public Scene
 {
 	struct PlayerConfig
 	{
@@ -34,6 +34,8 @@ protected:
 	void sDoAction(const Action& action);
 public:
 	EntityManager m_entityManager;
-	void update();
+	void update() override;
+	void onEnd() override;
+	Scene_Play(GameEngine* game, const std::string& levelPath);
 };
 

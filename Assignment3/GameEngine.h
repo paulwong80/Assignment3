@@ -1,20 +1,22 @@
 #pragma once
-#include "Scene.h"
 #include "Assets.h"
 #include <map>
 #include <memory>
-typedef std::map<std::string, std::shared_ptr<Scene>> SceneMap;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
+class Scene;
+typedef std::map<std::string, std::shared_ptr<Scene>> SceneMap;
 
 class GameEngine
 {
 protected:
-	// glfwWindow* m_window; To be fixed 
+	GLFWwindow* m_window; 
 	Assets m_assets;
 	std::string m_currentScene;
 	SceneMap m_sceneMap;
 	size_t m_simulationSpeed = 1;
-	bool m_runing = true;
+	bool m_running = true;
 	
 	void init(const std::string& path);
 	void update();
@@ -25,10 +27,9 @@ public:
 	void changeScene(const std::string& sceneName, std::shared_ptr<Scene> scene, bool endCurrentScene = false);
 	void quit();
 	void run();
-	// glfwWindow* window(); To be fixed 
 	const Assets& assets() const;
 	bool isRunning();
-	glfwWindow* window();
-	std::shared_ptr<Scene> getScene(const std::string& scene) const;
+	GLFWwindow* window();
+	std::shared_ptr<Scene> getScene(const std::string& scene);
 };
 

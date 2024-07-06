@@ -1,6 +1,14 @@
 #include "Animation.h"
-
+/*
 Animation::Animation()
+{
+}
+
+Animation::Animation(const std::string& name, const Texture& t)
+{
+}
+
+Animation::Animation(const std::string& name, const Texture& t, size_t frameCount, size_t speed)
 {
 }
 
@@ -45,3 +53,5 @@ Sprite& Animation::getSprite()
 	// TODO: insert return statement here
 	return m_sprite;
 }
+
+*/

@@ -19,40 +19,66 @@ public:
 
 	CTransform() {}
 	CTransform(const Vec2& p) :pos(p) {}
-	~CTransform() {}
-
+	CTransform(const Vec2& p, const Vec2 sp, const Vec2& sc, float a)
+		:pos(p), prevPos(p), velocity(sp), scale(sc), angle(a){}
 };
 
-class CLifeSpan
+class CLifeSpan : public Component
 {
-
+public:
+	int lifespan = 0;
+	int frameCreated = 0;
+	CLifeSpan(){}
+	CLifeSpan(int duration, int frame)
+		:lifespan(duration), frameCreated(frame){}
 };
 
-class CBoundingBox
+class CBoundingBox : public Component
 {
-
+public:
+	Vec2 size;
+	Vec2 halfSize;
+	CBoundingBox() {}
+	CBoundingBox(const Vec2& s)
+		:size(s), halfSize(s.x/2, s.y/2){}
 };
 
-class CAnimation
+class CAnimation: public Component
 {
-
+public:
+	Animation animation;
+	bool repeat = false;
+	CAnimation() {}
+	CAnimation(const Animation& animation, bool r)
+		:animation(animation), repeat(r) {};
 };
 
-class CGravity
+class CGravity : public Component
 {
-
+public:
+	float gravity = 0;
+	CGravity() {}
+	CGravity(float g) : gravity(g) {}
 };
 
-class CState
+class CState : public Component
 {
-
+public:
+	std::string state = "jumping";
+	CState() {}
+	CState(const std::string& s):state(s){}
 };
-class CInput
+
+class CInput : public Component
 {
 public:
 	bool left = false;
 	bool right = false;
 	bool jump = false;
 	bool shoot = false;
+	bool up = false;
+	bool down = false;
+	bool canShoot = true;
+	bool canJump = true;
 	CInput(){}
 };

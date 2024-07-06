@@ -2,10 +2,12 @@
 #include <map>
 #include <vector>
 #include "Vec2.h"
+#include <iostream>
 
 typedef unsigned Sprite;
 class Animation
 {
+	/*
 	Sprite m_sprite;
 	size_t m_frameCount = 1;
 	size_t m_currentFrame = 0;
@@ -21,5 +23,6 @@ public:
 	const std::string& getName() const;
 	const Vec2& getSize() const;
 	Sprite& getSprite();
+	*/
 };
 

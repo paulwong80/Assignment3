@@ -1,23 +1,44 @@
 #include "GameEngine.h"
 #include "Scene_Play.h"
 #include "Scene_Menu.h"
+#include "Input.h"
+
+const int width = 1280;
+const int height = 704;
 
 #include <iostream>
 void GameEngine::init(const std::string& path)
 {
 	m_assets.loadFromFile(path);
-	m_window.create("Mario");
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+	m_window = glfwCreateWindow(width, height, "Not Mario", NULL, NULL);
+	glfwMakeContextCurrent(m_window);
+	glewInit();
+	glfwSetKeyCallback(m_window, KeyCallback);
 	changeScene("MENU", std::make_shared<Scene_Menu>(this));
 }
 
 void GameEngine::update()
 {
+	glfwPollEvents();
 	sUserInput();
-	m_sceneMap.at(m_currentScene)->update();
+	m_sceneMap[m_currentScene]->update();
 }
 
 void GameEngine::sUserInput()
 {
+	if (event.action == GLFW_PRESS || event.action == GLFW_RELEASE)
+	{
+		if (currentScene()->getActionMap().find(event.key) == currentScene()->getActionMap().end()){return;}
+		const std::string actionType = (event.action == GLFW_PRESS) ? "START" : "END";
+		currentScene()->doAction(Action(currentScene()->getActionMap().at(event.key), actionType));
+	}
 }
 
 std::shared_ptr<Scene> GameEngine::currentScene()
@@ -42,32 +63,35 @@ void GameEngine::changeScene(const std::string& sceneName, std::shared_ptr<Scene
 
 void GameEngine::quit()
 {
+	m_running = false;
 }
 
 void GameEngine::run()
 {
-	while (isRunning)
+	while (isRunning())
 	{
 		update();
+		glfwSwapBuffers(m_window);
 	}
 }
 
 const Assets& GameEngine::assets() const
 {
 	// TODO: insert return statement here
+	return m_assets;
 }
 
 bool GameEngine::isRunning()
 {
-	return m_runing && m_window.isOpen();
+	return m_running && !glfwWindowShouldClose(m_window);
 }
 
-glfwWindow* GameEngine::window()
+GLFWwindow* GameEngine::window()
 {
 	return m_window;
 }
 
-std::shared_ptr<Scene> GameEngine::getScene(const std::string& scene) const
+std::shared_ptr<Scene> GameEngine::getScene(const std::string& scene)
 {
-	return std::shared_ptr<Scene>();
+	return m_sceneMap[scene];
 }

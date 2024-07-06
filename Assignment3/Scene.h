@@ -1,12 +1,12 @@
 #pragma once
-
 #include "Action.h"
 #include "EntityManager.h"
-
 #include <memory>
-class GameEngine;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "GameEngine.h"
 typedef std::map<int, std::string> ActionMap;
-
+class GameEngine;
 class Scene
 {
 protected:

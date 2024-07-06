@@ -1,9 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include <map>
 #include <memory>
-#include <deque>
-
 #include "EntityManager.h"
 
 class Scene_Menu:public Scene
@@ -16,14 +13,12 @@ protected:
 	size_t m_selectedMenuIndex = 0;
 
 	void init();
-	void update();
-	void onEnd();
-	void sDoAction(const Action& action);
+	void update() override;
+	void onEnd() override;
+	void sDoAction(const Action& action) override;
+	void doAction(const Action& action) override;
+	void sRender() override;
 public:
-	Scene_Menu(GameEngine* gameEngine = nullptr);
-	void sRender();
-	//
-	//
-
+	Scene_Menu(GameEngine* game);
 };
 
